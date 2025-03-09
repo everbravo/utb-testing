@@ -2,35 +2,50 @@ pipeline {
     agent any
 
     triggers {
-        githubPush()
+        githubPush() 
+    }
+
+    tools {
+        maven 'Maven 3'
+    }
+
+    environment {
+        MVN_HOME = "/usr/bin" 
     }
 
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    def branch = env.BRANCH_NAME ?: 'main'
-                    sh "git init"
-                    sh "git remote add origin https://github.com/everbravo/utb-testing.git || true"
-                    sh "git fetch --all"
-                    sh "git checkout ${branch}"
+                    echo "Clonando repositorio..."
+                    checkout scm 
                 }
             }
         }
 
         stage('Build') {
-            script {
-                env.PATH = "/usr/bin:${env.PATH}"
-            }
             steps {
-                echo "Compilando código en ${env.BRANCH_NAME}..."
-                sh 'mvn -f people-management-api/pom.xml clean install'
+                script {
+                    echo "Verificando instalación de Maven..."
+                    sh 'mvn -version'
+
+                    echo "Compilando código en ${env.BRANCH_NAME}..."
+                    dir('people-management-api') {
+                        sh 'mvn clean install'
+                    }
+                }
             }
         }
 
         stage('Test') {
             steps {
-                echo "Ejecutando pruebas..."
+                script {
+                    echo "Ejecutando pruebas..."
+                    dir('people-management-api') {
+                        //sh 'mvn test' 
+                        echo "Ejecutando pruebas..."
+                    }
+                }
             }
         }
 
@@ -39,7 +54,9 @@ pipeline {
                 branch 'main'
             }
             steps {
-                echo "Desplegando a producción..."
+                script {
+                    echo "Desplegando a producción..."
+                }
             }
         }
     }
