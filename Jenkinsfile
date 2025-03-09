@@ -8,7 +8,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/everbravo/utb-testing.git'
+                def branch = env.BRANCH_NAME ?: 'main'
+                sh "git init"
+                sh "git remote add origin https://github.com/everbravo/utb-testing.git || true"
+                sh "git fetch --all"
+                sh "git checkout ${branch}"
             }
         }
 
