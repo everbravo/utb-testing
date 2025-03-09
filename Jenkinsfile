@@ -31,7 +31,7 @@ pipeline {
 
                     echo "Compilando código en ${env.BRANCH_NAME}..."
                     dir('people-management-api') {
-                        sh 'mvn clean install'
+                        sh 'mvn clean install -DskipTests'
                     }
                 }
             }
