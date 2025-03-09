@@ -19,6 +19,9 @@ pipeline {
         }
 
         stage('Build') {
+            script {
+                env.PATH = "/usr/bin:${env.PATH}"
+            }
             steps {
                 echo "Compilando código en ${env.BRANCH_NAME}..."
                 sh 'mvn -f people-management-api/pom.xml clean install'
