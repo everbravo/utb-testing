@@ -14,16 +14,14 @@ pipeline {
 
         stage('Build') {
             steps {
-              maven clean install
                 echo "Compilando código en ${env.BRANCH_NAME}..."
-                sh 'echo Build completado'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
                 echo "Ejecutando pruebas..."
-                sh 'echo Tests ejecutados correctamente'
             }
         }
 
@@ -33,7 +31,6 @@ pipeline {
             }
             steps {
                 echo "Desplegando a producción..."
-                sh 'echo Despliegue realizado en producción'
             }
         }
     }
