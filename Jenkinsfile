@@ -15,7 +15,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Compilando código en ${env.BRANCH_NAME}..."
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn -f people-management-api/pom.xml clean install'
             }
         }
 
