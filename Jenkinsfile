@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/usuario/repo.git'
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/everbravo/utb-testing.git'
             }
         }
 
